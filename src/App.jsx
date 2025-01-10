@@ -146,45 +146,47 @@ function App() {
         isLoggedIn ? (
           <Navigate to="/home" />
         ) : (
-          <div className="login-container">
-            <div className="logo">
-              <img src={logo} alt="AllChinaFinds Logo" />
-            </div>
+          <div className="login-page">
+            <div className="login-container">
+              <div className="logo">
+                <img src={logo} alt="AllChinaFinds Logo" />
+              </div>
 
-            <div id="loginError" dangerouslySetInnerHTML={{ __html: loginError }}></div>
+              <div id="loginError" dangerouslySetInnerHTML={{ __html: loginError }}></div>
 
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                />
+              </div>
 
-            <button id="loginButton" type="button" onClick={handleLogin}>
-              Log In
-            </button>
+              <button id="loginButton" type="button" onClick={handleLogin}>
+                Log In
+              </button>
 
-            <div className="signup-link">
-              Don't have an account?
-              <a href="https://allchinafinds.com/membership-levels/" id="signUpButton">Sign Up</a>
+              <div className="signup-link">
+                Don't have an account?
+                <a href="https://allchinafinds.com/membership-levels/" id="signUpButton">Sign Up</a>
+              </div>
             </div>
           </div>
         )
