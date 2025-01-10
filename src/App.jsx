@@ -20,23 +20,18 @@ function App() {
     checkAuthStatus();
   }, []);
 
-  const checkAuthStatus = async () => {
+  const checkAuthStatus = () => {
     const token = localStorage.getItem('jwtToken');
-    console.log('Token found:', token);
-    if (token) {
-      try {
-        const isValid = await validateToken(token);
-        if (isValid) {
-          setIsLoggedIn(true);
-          console.log('User is logged in.');
-          return;
-        }
-      } catch (error) {
-        console.error('Token validation error:', error);
-      }
+    const hasProAccess = localStorage.getItem('hasProAccess');
+    
+    if (token && hasProAccess === 'true') {
+      setIsLoggedIn(true);
+      console.log('User is logged in with pro access.');
+    } else {
+      setIsLoggedIn(false);
+      localStorage.clear();
+      console.log('User is not logged in or lacks pro access.');
     }
-    console.log('User is not logged in.');
-    setIsLoggedIn(false);
   };
 
   const handleLogin = async () => {
@@ -64,16 +59,25 @@ function App() {
       });
 
       const data = await response.json();
-      console.log('Login response:', data);
+      console.log('Login response received');
 
       if (data.token) {
-        localStorage.setItem('jwtToken', data.token);
-        localStorage.setItem('loginTimestamp', Date.now());
-        localStorage.setItem('username', trimmedUsername);
+        // Check pro access before proceeding
+        const hasProAccess = await checkProAccess(data.token);
+        
+        if (hasProAccess) {
+          localStorage.setItem('jwtToken', data.token);
+          localStorage.setItem('loginTimestamp', Date.now());
+          localStorage.setItem('username', trimmedUsername);
+          localStorage.setItem('hasProAccess', 'true');
 
-        setIsLoggedIn(true);
-        console.log('User logged in, navigating to home...');
-        navigate('/home');
+          setIsLoggedIn(true);
+          console.log('User logged in with pro access, navigating to home...');
+          navigate('/home');
+        } else {
+          showError('Access denied. This feature is only available for Pro members. <br><a href="https://allchinafinds.com/membership-checkout/?pmpro_level=3" class="upgrade-button">Upgrade to Pro</a>');
+          console.log('Login failed: User does not have pro access');
+        }
       } else {
         showError(data.message || 'Invalid login credentials.');
       }
@@ -83,7 +87,7 @@ function App() {
     }
   };
 
-  const validateToken = async (token) => {
+  const checkProAccess = async (token) => {
     try {
       const response = await fetch('https://allchinafinds.com/wp-json/wp/v2/users/me', {
         headers: {
@@ -92,12 +96,12 @@ function App() {
       });
 
       if (!response.ok) {
-        console.log('Token validation failed. Response status:', response.status);
+        console.log('Pro access check failed. Response status:', response.status);
         return false;
       }
 
       const userData = await response.json();
-      console.log('User data from token validation:', userData);
+      console.log('User data from pro access check:', userData);
 
       const hasProAccess = 
         userData.subscription_status === 'active' && (
@@ -107,14 +111,10 @@ function App() {
           (userData.membership_level?.name && userData.membership_level.name.includes('Pro'))
         );
 
-      if (!hasProAccess) {
-        console.log('User does not have Pro access');
-        return false;
-      }
-
-      return true;
+      console.log('Pro access check result:', hasProAccess);
+      return hasProAccess;
     } catch (error) {
-      console.error('Token validation error:', error);
+      console.error('Pro access check error:', error);
       return false;
     }
   };

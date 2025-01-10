@@ -164,9 +164,12 @@ const ManageBot = () => {
                     {error && <div className="error-message">{error}</div>}
 
                     <div className="dashboard">
+                        {loading && <div className="loading">Loading...</div>}
+                        {error && <div className="error-message">{error}</div>}
+                        
                         {!loading && !error && (
                             userBots.length > 0 ? (
-                                <div className="bots-grid">
+                                <>
                                     {userBots.map(bot => (
                                         <div className="bot-card" key={bot.created_at}>
                                             <div className="bot-header">
@@ -198,7 +201,7 @@ const ManageBot = () => {
                                             </div>
                                         </div>
                                     ))}
-                                </div>
+                                </>
                             ) : (
                                 <div className="no-bots">
                                     <p>No active bots found for your account.</p>

@@ -18,8 +18,9 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
-    margin-left: 250px;
-    padding: 20px;
+    margin-left: 200px;
+    padding: 20px 30px;
+    width: calc(100% - 200px);
 }
 
 /* Header Styles */
@@ -92,9 +93,11 @@ body {
 /* Dashboard Grid */
 .dashboard {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
     padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Bot Card Styles */
@@ -228,6 +231,7 @@ body {
     text-align: center;
     color: #666;
     padding: 20px;
+    grid-column: 1 / -1; /* Spans full width */
 }
 
 .error {
@@ -244,12 +248,23 @@ body {
     text-decoration: underline;
 }
 
-
-
 /* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard {
+        gap: 20px; /* Slightly reduced gap for smaller screens */
+    }
+}
+
 @media (max-width: 768px) {
     .main-content {
         margin-left: 0;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .header-left {
@@ -270,15 +285,26 @@ body {
         font-size: 20px;
     }
 
-    .dashboard {
-        grid-template-columns: 1fr;
-    }
-
     .bot-card {
         min-height: auto;
     }
 
     .bot-actions button {
         max-width: none;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .dashboard {
+        gap: 15px;
+    }
+
+    .bot-card {
+        padding: 15px;
     }
 }
