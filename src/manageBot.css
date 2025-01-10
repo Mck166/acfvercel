@@ -1,0 +1,284 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fb;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Header Styles */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.content-header h1 {
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+.user-info {
+    color: #7f8c8d;
+}
+
+/* Bot Counter */
+.bot-counter {
+    background-color: #f8fafc;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.bot-counter i {
+    color: #31B48C;
+    font-size: 12px;
+}
+
+.bot-counter span {
+    font-weight: 500;
+}
+
+/* Welcome Section */
+.welcome-section {
+    background: linear-gradient(135deg, #31B48C, #31B48C);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.welcome-section p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* Dashboard Grid */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+/* Bot Card Styles */
+.bot-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 230px;
+}
+
+.bot-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.bot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.bot-header h3 {
+    font-size: 18px;
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Status Badge */
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status.active {
+    background: #e6f4ea;
+    color: #1e7e34;
+}
+
+.status.paused {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+/* Bot Info */
+.bot-info {
+    flex-grow: 1;
+    padding: 10px 0;
+}
+
+.bot-info p {
+    margin: 12px 0;
+    color: #4a5568;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.bot-info strong {
+    color: #2d3748;
+    font-weight: 600;
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Bot Actions */
+.bot-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #edf2f7;
+}
+
+.bot-actions button {
+    flex: 1;
+    max-width: 150px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.toggle-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.toggle-btn.paused {
+    background-color: #28a745;
+}
+
+.toggle-btn:hover {
+    background-color: #0056b3;
+}
+
+.toggle-btn.paused:hover {
+    background-color: #218838;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.bot-actions i {
+    font-size: 14px;
+}
+
+/* No Bots Message */
+.no-bots, .error {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.error {
+    color: #dc3545;
+}
+
+.no-bots a {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.no-bots a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+
+    .header-left {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .bot-counter {
+        font-size: 12px;
+    }
+
+    .welcome-section {
+        padding: 20px;
+    }
+
+    .welcome-section h2 {
+        font-size: 20px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .bot-card {
+        min-height: auto;
+    }
+
+    .bot-actions button {
+        max-width: none;
+    }
+}
