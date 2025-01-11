@@ -120,6 +120,7 @@ body {
 .instructions-text ol {
     padding-left: 15px;
     margin-bottom: 10px;
+    list-style-position: outside; /* Add this */
 }
 
 .instructions-text li {
@@ -127,6 +128,8 @@ body {
     line-height: 1.3;
     font-size: 14px;
     color: #4a5568;
+    text-align: left; /* Add this */
+    padding-left: 8px; /* Add this */
 }
 
 .instructions-text p {
@@ -135,6 +138,7 @@ body {
     margin-bottom: 8px;
     padding: 8px;
     color: #4a5568;
+    text-align: left; /* Add this */
 }
 
 /* QR Code */
