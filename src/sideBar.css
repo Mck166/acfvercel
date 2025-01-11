@@ -11,12 +11,14 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     align-items: center;
-    justify-content: space-between;
 }
 
 .mobile-logo {
     height: 40px;
     width: auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* Sidebar Container */
@@ -101,8 +103,18 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #2c3e50;
+    color: #000000; /* Changed to black */
     padding: 10px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1001;
+}
+
+.menu-toggle i {
+    font-size: 24px;
+    color: #000000; /* Added to ensure icon is black */
 }
 
 /* Overlay for mobile */
@@ -140,15 +152,6 @@
 
     .menu-toggle {
         display: block;
-        background: none;
-        border: none;
-        font-size: 24px;
-        color: #2c3e50;
-        cursor: pointer;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
     .sidebar-overlay {
