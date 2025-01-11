@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import logo from './assets/allchinafinds.png';
+import burgerMenu from './assets/burger-menu.png';
 import './sideBar.css';
 
 const Sidebar = () => {
@@ -30,7 +31,7 @@ const Sidebar = () => {
       {/* Mobile Header */}
       <div className="mobile-header">
         <button className="menu-toggle" onClick={toggleMenu}>
-          <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`}></i>
+          <img src={burgerMenu} alt="Menu" className="burger-icon" />
         </button>
         <img src={logo} alt="All China Finds Logo" className="mobile-logo" />
       </div>
