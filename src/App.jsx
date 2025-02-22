@@ -4,6 +4,7 @@ import logo from './assets/allchinafinds.png';
 import Home from './Home';
 import SetupBot from './setupBot';
 import ManageBot from './manageBot';
+import ConvertCEToWC from './ConvertCEToWC';
 import Layout from './Layout';
 import './App.css';
 import './logIn.css';
@@ -205,6 +206,10 @@ function App() {
         <Route
           path="/manage-bots"
           element={isLoggedIn ? <ManageBot handleLogout={handleLogout} /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/convert-ce-to-wc"
+          element={isLoggedIn ? <ConvertCEToWC handleLogout={handleLogout} /> : <Navigate to="/" />}
         />
       </Route>
 

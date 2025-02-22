@@ -73,6 +73,15 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
+              <Link 
+                to="/convert-ce-to-wc" 
+                className={`nav-item ${isActive('/convert-ce-to-wc') ? 'active' : ''}`}
+                onClick={closeMenu}
+              >
+                <i className="fas fa-exchange-alt"></i>Convert CE To WC
+              </Link>
+            </li>
+            <li>
               <a href="#" className="nav-item" onClick={handleLogout}>
                 <i className="fas fa-sign-out-alt"></i>Log Out
               </a>
