@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from './assets/allchinafinds.png';
 import './manageBot.css';
-import './sideBar.css';
 
 const API_BASE_URL = 'https://api.allchinafinds.com';
 
@@ -12,7 +10,6 @@ const ManageBot = () => {
     const [botCount, setBotCount] = useState('0/2');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showSidebar, setShowSidebar] = useState(false);
     const loggedInUsername = localStorage.getItem('username');
 
     useEffect(() => {
@@ -112,110 +109,77 @@ const ManageBot = () => {
         navigate('/');
     };
 
-    const toggleSidebar = () => {
-        setShowSidebar(!showSidebar);
-    };
-
     return (
-        <div className="layout">
-            {/* Sidebar */}
-            <div className={`sidebar ${showSidebar ? 'show' : ''}`}>
-                <div className="sidebar-header">
-                    <img src={logo} alt="Logo" className="logo" />
+        <div className="content-body">
+            <div className="content-header">
+                <div className="header-left">
+                    <div className="bot-counter">
+                        <i className="fas fa-robot"></i>
+                        <span>{botCount}</span>
+                    </div>
+                    <h1>Active Bots</h1>
                 </div>
-                <nav className="sidebar-nav">
-                    <button onClick={() => navigate('/home')} className="nav-button">
-                        <i className="fas fa-home"></i> Home
-                    </button>
-                    <button onClick={() => navigate('/setup-bot')} className="nav-button">
-                        <i className="fas fa-plus"></i> Create Bot
-                    </button>
-                    <button onClick={() => navigate('/manage-bots')} className="nav-button active">
-                        <i className="fas fa-cog"></i> Manage Bots
-                    </button>
-                    <button onClick={handleLogout} className="nav-button">
-                        <i className="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </nav>
             </div>
 
-            {/* Main Content */}
-            <div className="main-content">
-                <div className="content-header">
-                    <button className="menu-toggle" onClick={toggleSidebar}>
-                        <i className="fas fa-bars"></i>
-                    </button>
-                    <div className="header-left">
-                        <div className="bot-counter">
-                            <i className="fas fa-robot"></i>
-                            <span>{botCount}</span>
-                        </div>
-                        <h1>Active Bots</h1>
-                    </div>
-                </div>
+            <div className="welcome-section">
+                <h2>View all of your bots below</h2>
+                <p>Delete or pause your bots from here, you can also create a new bot from the setup bot page</p>
+            </div>
 
-                <div className="content-body">
-                    <div className="welcome-section">
-                        <h2>View all of your bots below</h2>
-                        <p>Delete or pause your bots from here, you can also create a new bot from the setup bot page</p>
-                    </div>
+            {loading && <div className="loading">Loading...</div>}
+            {error && <div className="error-message">{error}</div>}
 
-                    {loading && <div className="loading">Loading...</div>}
-                    {error && <div className="error-message">{error}</div>}
-
-                    <div className="dashboard">
-                        {loading && <div className="loading">Loading...</div>}
-                        {error && <div className="error-message">{error}</div>}
-                        
-                        {!loading && !error && (
-                            userBots.length > 0 ? (
-                                <>
-                                    {userBots.map(bot => (
-                                        <div className="bot-card" key={bot.created_at}>
-                                            <div className="bot-header">
-                                                <h3>Bot Details</h3>
-                                                <span className={`status ${bot.status || 'active'}`}>
-                                                    {bot.status || 'active'}
-                                                </span>
-                                            </div>
-                                            <div className="bot-info">
-                                                <p><strong>Channel:</strong> {bot.channel}</p>
-                                                <p><strong>Affiliate Code:</strong> {bot.affiliate_code}</p>
-                                                <p><strong>Created:</strong> {new Date(bot.created_at).toLocaleDateString()}</p>
-                                            </div>
-                                            <div className="bot-actions">
-                                                <button 
-                                                    className={`toggle-btn ${bot.status || 'active'}`}
-                                                    onClick={() => toggleBotStatus(bot.channel, bot.status || 'active')}
-                                                >
-                                                    <i className={`fas ${bot.status === 'paused' ? 'fa-play' : 'fa-pause'}`}></i>
-                                                    {bot.status === 'paused' ? 'Start Bot' : 'Pause Bot'}
-                                                </button>
-                                                <button 
-                                                    className="delete-btn"
-                                                    onClick={() => deleteBot(bot.channel)}
-                                                >
-                                                    <i className="fas fa-trash"></i>
-                                                    Delete Bot
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </>
-                            ) : (
-                                <div className="no-bots">
-                                    <p>No active bots found for your account.</p>
-                                    <button 
-                                        onClick={() => navigate('/setup-bot')}
-                                        className="create-bot-button"
-                                    >
-                                        Create New Bot
-                                    </button>
+            <div className="dashboard">
+                {loading && <div className="loading">Loading...</div>}
+                {error && <div className="error-message">{error}</div>}
+                
+                {!loading && !error && (
+                    userBots.length > 0 ? (
+                        <>
+                            {userBots.map(bot => (
+                                <div className="bot-card" key={bot.created_at}>
+                                    <div className="bot-header">
+                                        <h3>Bot Details</h3>
+                                        <span className={`status ${bot.status || 'active'}`}>
+                                            {bot.status || 'active'}
+                                        </span>
+                                    </div>
+                                    <div className="bot-info">
+                                        <p><strong>Channel:</strong> {bot.channel}</p>
+                                        <p><strong>Affiliate Code:</strong> {bot.affiliate_code}</p>
+                                        <p><strong>Created:</strong> {new Date(bot.created_at).toLocaleDateString()}</p>
+                                    </div>
+                                    <div className="bot-actions">
+                                        <button 
+                                            className={`toggle-btn ${bot.status || 'active'}`}
+                                            onClick={() => toggleBotStatus(bot.channel, bot.status || 'active')}
+                                        >
+                                            <i className={`fas ${bot.status === 'paused' ? 'fa-play' : 'fa-pause'}`}></i>
+                                            {bot.status === 'paused' ? 'Start Bot' : 'Pause Bot'}
+                                        </button>
+                                        <button 
+                                            className="delete-btn"
+                                            onClick={() => deleteBot(bot.channel)}
+                                        >
+                                            <i className="fas fa-trash"></i>
+                                            Delete Bot
+                                        </button>
+                                    </div>
                                 </div>
-                            )
-                        )}
-                    </div>
-                </div>
+                            ))}
+                        </>
+                    ) : (
+                        <div className="no-bots">
+                            <p>No active bots found for your account.</p>
+                            <button 
+                                onClick={() => navigate('/setup-bot')}
+                                className="create-bot-button"
+                            >
+                                Create New Bot
+                            </button>
+                        </div>
+                    )
+                )}
             </div>
         </div>
     );

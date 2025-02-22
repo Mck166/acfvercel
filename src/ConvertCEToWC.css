@@ -1,0 +1,146 @@
+.converter-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.converter-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 20px;
+}
+
+.file-upload-section {
+  margin-bottom: 20px;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-label:hover {
+  border-color: #31B48C;
+  background: #f8fafc;
+}
+
+.file-label i {
+  font-size: 24px;
+  color: #31B48C;
+}
+
+.file-label span {
+  font-size: 16px;
+  color: #64748b;
+}
+
+.convert-button {
+  width: 100%;
+  padding: 15px;
+  background: #31B48C;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.convert-button:hover:not(:disabled) {
+  background: #2a9d7c;
+}
+
+.convert-button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.convert-button i {
+  font-size: 16px;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.welcome-section {
+  background: linear-gradient(135deg, #31B48C, #31B48C);
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.welcome-section p {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.text-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #000000;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #31B48C;
+  box-shadow: 0 0 0 2px rgba(49, 180, 140, 0.1);
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.text-input::placeholder {
+  color: #94a3b8;
+}
+
+.text-input:-webkit-autofill,
+.text-input:-webkit-autofill:hover,
+.text-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000000;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+  transition: background-color 5000s ease-in-out 0s;
+} 

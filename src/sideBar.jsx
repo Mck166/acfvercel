@@ -23,6 +23,7 @@ const Sidebar = () => {
   };
 
   const isActive = (path) => {
+    console.log('Checking active path:', path, 'Current location:', location.pathname);
     return location.pathname === path;
   };
 

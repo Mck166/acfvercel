@@ -19,10 +19,9 @@ body {
 
 .main-content {
     flex: 1;
-    margin-left: 200px;
     padding: 20px 30px;
     min-width: 0;
-    width: calc(100% - 200px);
+    width: 100%;
 }
 
 .content-wrapper {
@@ -310,7 +309,6 @@ body {
 
 @media (max-width: 768px) {
     .main-content {
-        margin-left: 0;
         padding: 10px;
     }
 
