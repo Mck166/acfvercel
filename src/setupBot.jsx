@@ -224,6 +224,7 @@ const SetupBot = () => {
                                 >
                                     <option value="">Select an agent...</option>
                                     <option value="Allchinabuy">Allchinabuy</option>
+                                    <option value="AcBuy">AcBuy</option>
                                     <option value="Cnfans">Cnfans</option>
                                     <option value="Joyabuy">Joyabuy</option>
                                     <option value="Mulebuy">Mulebuy</option>
