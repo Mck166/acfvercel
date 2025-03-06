@@ -145,9 +145,18 @@ const ManageBot = () => {
                                         </span>
                                     </div>
                                     <div className="bot-info">
-                                        <p><strong>Channel:</strong> {bot.channel}</p>
-                                        <p><strong>Affiliate Code:</strong> {bot.affiliate_code}</p>
-                                        <p><strong>Created:</strong> {new Date(bot.created_at).toLocaleDateString()}</p>
+                                        <p>
+                                            <strong>Channel:</strong>
+                                            <span className="value">{bot.channel}</span>
+                                        </p>
+                                        <p>
+                                            <strong>Affiliate Code:</strong>
+                                            <span className="value">{bot.affiliate_code}</span>
+                                        </p>
+                                        <p>
+                                            <strong>Agent:</strong>
+                                            <span className="value">{bot.agent || 'Not specified'}</span>
+                                        </p>
                                     </div>
                                     <div className="bot-actions">
                                         <button 
