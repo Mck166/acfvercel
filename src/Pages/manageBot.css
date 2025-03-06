@@ -10,10 +10,6 @@ body {
     background-color: #f5f7fb;
 }
 
-/* Main Content */
-.main-content {
-    /* Remove these */
-}
 
 /* Header Styles */
 .content-header {
@@ -85,7 +81,7 @@ body {
 /* Dashboard Grid */
 .dashboard {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     padding: 20px 0;
     max-width: 1200px;
@@ -102,6 +98,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 230px;
+    width: 100%;
+    overflow: hidden; /* Prevent content from overflowing */
 }
 
 .bot-card:hover {
@@ -114,6 +112,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 10px; /* Add gap for when items wrap */
 }
 
 .bot-header h3 {
@@ -144,15 +144,17 @@ body {
 
 /* Bot Info */
 .bot-info {
-    flex-grow: 1;
-    padding: 10px 0;
+    margin-bottom: 20px;
+    word-break: break-word; /* Allow long words to break */
 }
 
 .bot-info p {
-    margin: 12px 0;
-    color: #4a5568;
+    margin-bottom: 10px;
     font-size: 14px;
-    line-height: 1.5;
+    color: #4a5568;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 5px;
 }
 
 .bot-info strong {
@@ -240,49 +242,53 @@ body {
     text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .dashboard {
-        gap: 20px; /* Slightly reduced gap for smaller screens */
-    }
-}
-
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .header-left {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+    .dashboard {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 20px;
     }
-
-    .bot-counter {
-        font-size: 12px;
-    }
-
-    .welcome-section {
-        padding: 20px;
-    }
-
-    .welcome-section h2 {
-        font-size: 20px;
-    }
-
+    
     .bot-card {
+        padding: 15px;
         min-height: auto;
     }
-
+    
+    .bot-info p {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+    
+    .bot-info strong {
+        min-width: auto;
+        margin-bottom: 2px;
+    }
+    
+    .bot-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
     .bot-actions button {
         max-width: none;
+        width: 100%;
     }
 }
 
 /* Small Mobile Devices */
 @media (max-width: 480px) {
-    .dashboard {
-        gap: 15px;
-    }
-
     .bot-card {
-        padding: 15px;
+        padding: 12px;
+    }
+    
+    .bot-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .status {
+        align-self: flex-start;
     }
 }
 

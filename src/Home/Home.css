@@ -10,10 +10,6 @@ body {
     background-color: #f5f7fb;
 }
 
-/* Main Content */
-.main-content {
-    /* Remove these */
-}
 
 /* Header Styles */
 .content-header {
@@ -185,9 +181,6 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .main-content {
-        /* Remove these */
-    }
     
     .dashboard-grid {
         grid-template-columns: 1fr;
