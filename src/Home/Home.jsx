@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import myqrcode from './assets/myqrcode.jpeg';
+import myqrcode from '../assets/myqrcode.jpeg';
 import './Home.css';
 
 const API_BASE_URL = 'https://api.allchinafinds.com';

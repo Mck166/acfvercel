@@ -1,15 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from './sideBar'; // Adjust the path as necessary
-import './sideBar.css'; // Ensure sidebar styles are imported
+import Header from './Header/Header';
+import './Layout.css';
 
 const Layout = () => {
   return (
-    <div className="layout">
-      <Sidebar />
-      <div className="main-content">
-        <Outlet /> {/* This will render the child routes */}
-      </div>
+    <div className="app-container">
+      <Header />
+      <main className="main-content">
+        <div className="content-wrapper">
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 };

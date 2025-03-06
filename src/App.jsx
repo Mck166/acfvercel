@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import logo from './assets/allchinafinds.png';
-import Home from './Home';
-import SetupBot from './setupBot';
-import ManageBot from './manageBot';
-import ConvertCEToWC from './ConvertCEToWC';
+import Home from './Home/Home';
+import SetupBot from './Pages/setupBot';
+import ManageBot from './Pages/manageBot';
+import ConvertCEToWC from './Pages/ConvertCEToWC';
 import Layout from './Layout';
 import './App.css';
 import './logIn.css';

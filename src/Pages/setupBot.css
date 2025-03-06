@@ -15,6 +15,7 @@ body {
 .layout {
     display: flex;
     min-height: 100vh;
+    width: 100%;
 }
 
 .main-content {
@@ -119,7 +120,7 @@ body {
 .instructions-text ol {
     padding-left: 15px;
     margin-bottom: 10px;
-    list-style-position: outside; /* Add this */
+    list-style-position: outside;
 }
 
 .instructions-text li {
@@ -127,8 +128,8 @@ body {
     line-height: 1.3;
     font-size: 14px;
     color: #4a5568;
-    text-align: left; /* Add this */
-    padding-left: 8px; /* Add this */
+    text-align: left;
+    padding-left: 8px;
 }
 
 .instructions-text p {
@@ -137,7 +138,7 @@ body {
     margin-bottom: 8px;
     padding: 8px;
     color: #4a5568;
-    text-align: left; /* Add this */
+    text-align: left;
 }
 
 /* QR Code */
