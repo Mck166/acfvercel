@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoginCTA from '../components/LoginCTA';
 import qrCode from '../assets/qrcode.jpeg';
 import './setupBot.css';
 
 const API_BASE_URL = 'https://api.allchinafinds.com';
 
-const SetupBot = () => {
+const SetupBot = ({ isLoggedIn }) => {
     const navigate = useNavigate();
     const [socialLinks, setSocialLinks] = useState([]);
     const [formData, setFormData] = useState({
@@ -23,14 +24,10 @@ const SetupBot = () => {
         console.log('Token on SetupBot:', token);
         console.log('Username:', username);
 
-        if (!token || !username) {
-            console.log('No token or username found, redirecting to login');
-            navigate('/');
-            return;
+        if (isLoggedIn && token && username) {
+            checkBotCount();
         }
-
-        checkBotCount();
-    }, [navigate]);
+    }, [isLoggedIn, navigate]);
 
     const checkBotCount = async () => {
         try {
@@ -90,6 +87,11 @@ const SetupBot = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { channelId, affiliateCode, selectedAgent } = formData;
+
+        if (!isLoggedIn) {
+            navigate('/login');
+            return;
+        }
 
         if (!channelId || !affiliateCode || !selectedAgent) {
             setError('Please fill in all required fields');
@@ -151,6 +153,8 @@ const SetupBot = () => {
                 <h1>Setup your Telegram Bot</h1>
             </div>
 
+            {!isLoggedIn && <LoginCTA />}
+
             <div className="welcome-section">
                 <h2>Automate your affiliate links with my Telegram Bot</h2>
                 <p>Setup your bot in just a few minutes and start earning passive income</p>
@@ -192,9 +196,10 @@ const SetupBot = () => {
                                     id="channelId"
                                     name="channelId"
                                     placeholder="@channelid"
-                                    required
+                                    required={isLoggedIn}
                                     value={formData.channelId}
                                     onChange={handleInputChange}
+                                    disabled={!isLoggedIn && loading}
                                 />
                                 <small>Make sure to add the bot as an admin to your channel, include the "@" in this</small>
                             </div>
@@ -206,9 +211,10 @@ const SetupBot = () => {
                                     id="affiliateCode"
                                     name="affiliateCode"
                                     placeholder="Your affiliate code"
-                                    required
+                                    required={isLoggedIn}
                                     value={formData.affiliateCode}
                                     onChange={handleInputChange}
+                                    disabled={!isLoggedIn && loading}
                                 />
                                 <small>Only add the affiliate code, no "ref=" only the numbers/letters after this</small>
                             </div>
@@ -218,9 +224,10 @@ const SetupBot = () => {
                                 <select
                                     id="agentSelect"
                                     name="selectedAgent"
-                                    required
+                                    required={isLoggedIn}
                                     value={formData.selectedAgent}
                                     onChange={handleInputChange}
+                                    disabled={!isLoggedIn && loading}
                                 >
                                     <option value="">Select an agent...</option>
                                     <option value="Allchinabuy">Allchinabuy</option>
@@ -244,6 +251,7 @@ const SetupBot = () => {
                                                     name="platform"
                                                     value={link.platform}
                                                     onChange={(e) => handleSocialLinkChange(index, e)}
+                                                    disabled={!isLoggedIn && loading}
                                                 />
                                                 <input
                                                     type="text"
@@ -251,12 +259,14 @@ const SetupBot = () => {
                                                     name="link"
                                                     value={link.link}
                                                     onChange={(e) => handleSocialLinkChange(index, e)}
+                                                    disabled={!isLoggedIn && loading}
                                                 />
                                             </div>
                                             <button 
                                                 type="button" 
                                                 className="remove-link"
                                                 onClick={() => removeSocialLink(index)}
+                                                disabled={!isLoggedIn && loading}
                                             >
                                                 <i className="fas fa-times"></i>
                                             </button>
@@ -267,19 +277,38 @@ const SetupBot = () => {
                                     type="button" 
                                     className="secondary-button"
                                     onClick={addSocialLink}
+                                    disabled={!isLoggedIn && loading}
                                 >
                                     <i className="fas fa-plus"></i> Add Social Media
                                 </button>
                             </div>
 
                             <div className="form-actions">
+                                {isLoggedIn ? (
+                                    <button 
+                                        type="submit" 
+                                        className="primary-button" 
+                                        disabled={loading || botCount >= 2}
+                                        title={botCount >= 2 ? 'Maximum bot limit reached' : ''}
+                                    >
+                                        {loading ? 'Creating Bot...' : botCount >= 2 ? 'Bot Limit Reached' : 'Create Bot'}
+                                    </button>
+                                ) : (
+                                    <button 
+                                        type="button" 
+                                        className="primary-button login-button"
+                                        onClick={() => navigate('/login')}
+                                    >
+                                        Log In to Create Bot
+                                    </button>
+                                )}
                                 <button 
-                                    type="submit" 
-                                    className="primary-button" 
-                                    disabled={loading || botCount >= 2}
-                                    title={botCount >= 2 ? 'Maximum bot limit reached' : ''}
+                                    type="button" 
+                                    className="secondary-button"
+                                    onClick={() => navigate('/')}
+                                    disabled={loading}
                                 >
-                                    {loading ? 'Creating Bot...' : botCount >= 2 ? 'Bot Limit Reached' : 'Create Bot'}
+                                    Cancel
                                 </button>
                             </div>
                         </form>

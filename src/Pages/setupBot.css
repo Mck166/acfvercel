@@ -51,25 +51,31 @@ body {
 /* Welcome Section */
 .welcome-section {
     width: 100%;
-    background: linear-gradient(135deg, #31B48C, #31B48C);
-    color: white;
-    padding: 20px 25px;
-    border-radius: 12px;
+    background-color: #31B48C;
+    color: white !important;
+    padding: 20px;
+    border-radius: 6px;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .welcome-section h2 {
     font-size: 20px;
-    margin-bottom: 5px;
-    color: white;
+    margin-bottom: 8px;
+    color: white !important;
+    font-weight: 600;
 }
 
 .welcome-section p {
-    font-size: 14px;
-    opacity: 0.9;
-    color: white;
+    font-size: 16px;
+    color: white !important;
+    margin-bottom: 0;
+}
+
+/* Ensure all text in welcome section is white */
+.welcome-section * {
+    color: white !important;
 }
 
 /* Setup Container */
@@ -259,13 +265,18 @@ body {
 }
 
 .primary-button {
-    background: #31B48C;
+    background-color: #31B48C;
     color: white;
     border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .primary-button:hover {
-    background: #2a9d7c;
+    background-color: #2a9d7c;
 }
 
 .primary-button:disabled {
@@ -386,4 +397,54 @@ body {
     .welcome-section p {
         font-size: 13px;
     }
+}
+
+/* Add these styles to your existing CSS */
+.login-button {
+  background-color: #31B48C !important;
+  color: white !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.login-button:hover {
+  background-color: #2a9d7c !important;
+}
+
+/* Ensure form elements are properly styled when not logged in */
+.form-group input:disabled,
+.form-group select:disabled,
+.form-group button:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Make sure the login button is always clickable */
+.primary-button.login-button:disabled {
+  background-color: #31B48C !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  color: white !important;
+}
+
+/* Fix for the form actions */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Ensure the login button is always visible and clickable */
+.primary-button.login-button {
+  z-index: 10;
+  position: relative;
 }

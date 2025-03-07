@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoginCTA from '../components/LoginCTA';
 import './manageBot.css';
 
 const API_BASE_URL = 'https://api.allchinafinds.com';
 
-const ManageBot = () => {
+const ManageBot = ({ isLoggedIn }) => {
     const navigate = useNavigate();
     const [userBots, setUserBots] = useState([]);
     const [botCount, setBotCount] = useState('0/2');
@@ -13,43 +14,52 @@ const ManageBot = () => {
     const loggedInUsername = localStorage.getItem('username');
 
     useEffect(() => {
-        const fetchBots = async () => {
-            const token = localStorage.getItem('jwtToken');
-            if (!token) {
-                navigate('/');
-                return;
-            }
+        if (isLoggedIn) {
+            fetchBots();
+        } else {
+            setLoading(false);
+        }
+    }, [isLoggedIn]);
 
-            try {
-                setLoading(true);
-                const response = await fetch(`${API_BASE_URL}/api/bots`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    }
-                });
+    const fetchBots = async () => {
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            navigate('/login');
+            return;
+        }
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch bots');
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/api/bots`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
                 }
+            });
 
-                const data = await response.json();
-                const userBots = data.bots.filter(bot => 
-                    bot.username.toLowerCase() === loggedInUsername.toLowerCase()
-                );
-                setUserBots(userBots);
-                setBotCount(`${userBots.length}/2`);
-            } catch (error) {
-                console.error('Error fetching bots:', error);
-                setError('Error loading bots. Please try again later.');
-            } finally {
-                setLoading(false);
+            if (!response.ok) {
+                throw new Error('Failed to fetch bots');
             }
-        };
 
-        fetchBots();
-    }, [navigate, loggedInUsername]);
+            const data = await response.json();
+            const userBots = data.bots.filter(bot => 
+                bot.username.toLowerCase() === loggedInUsername.toLowerCase()
+            );
+            setUserBots(userBots);
+            setBotCount(`${userBots.length}/2`);
+        } catch (error) {
+            console.error('Error fetching bots:', error);
+            setError('Error loading bots. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const toggleBotStatus = async (channel, currentStatus) => {
+        if (!isLoggedIn) {
+            navigate('/login');
+            return;
+        }
+
         try {
             const newStatus = currentStatus === 'active' ? 'paused' : 'active';
 
@@ -62,25 +72,27 @@ const ManageBot = () => {
                 body: JSON.stringify({ status: newStatus }),
             });
 
-            if (response.ok) {
-                setUserBots(prevBots => 
-                    prevBots.map(bot => 
-                        bot.channel === channel 
-                            ? {...bot, status: newStatus}
-                            : bot
-                    )
-                );
-            } else {
+            if (!response.ok) {
                 throw new Error('Failed to update bot status');
             }
+
+            // Update local state
+            setUserBots(userBots.map(bot => 
+                bot.channel === channel ? { ...bot, status: newStatus } : bot
+            ));
         } catch (error) {
             console.error('Error updating bot status:', error);
-            alert('Failed to update bot status. Please try again.');
+            setError('Failed to update bot status. Please try again.');
         }
     };
 
     const deleteBot = async (channel) => {
-        if (!window.confirm('Are you sure you want to delete this bot?')) {
+        if (!isLoggedIn) {
+            navigate('/login');
+            return;
+        }
+
+        if (!window.confirm(`Are you sure you want to delete the bot for channel ${channel}?`)) {
             return;
         }
 
@@ -89,107 +101,120 @@ const ManageBot = () => {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
-                }
+                },
             });
 
-            if (response.ok) {
-                setUserBots(prevBots => prevBots.filter(bot => bot.channel !== channel));
-                setBotCount(prev => `${parseInt(prev) - 1}/2`);
-            } else {
+            if (!response.ok) {
                 throw new Error('Failed to delete bot');
             }
+
+            // Update local state
+            setUserBots(userBots.filter(bot => bot.channel !== channel));
+            setBotCount(`${userBots.length - 1}/2`);
         } catch (error) {
             console.error('Error deleting bot:', error);
-            alert('Failed to delete bot. Please try again.');
+            setError('Failed to delete bot. Please try again.');
         }
     };
 
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/');
-    };
-
     return (
-        <div className="content-body">
+        <div className="manage-bots-container">
             <div className="content-header">
-                <div className="header-left">
-                    <div className="bot-counter">
-                        <i className="fas fa-robot"></i>
-                        <span>{botCount}</span>
-                    </div>
-                    <h1>Active Bots</h1>
-                </div>
+                <h1>Manage Bots</h1>
+                {isLoggedIn && <div className="bot-count">{botCount} Bots</div>}
             </div>
+            
+            {!isLoggedIn && <LoginCTA />}
 
-            <div className="welcome-section">
-                <h2>View all of your bots below</h2>
-                <p>Delete or pause your bots from here, you can also create a new bot from the setup bot page</p>
-            </div>
-
-            {loading && <div className="loading">Loading...</div>}
-            {error && <div className="error-message">{error}</div>}
-
-            <div className="dashboard">
-                {loading && <div className="loading">Loading...</div>}
-                {error && <div className="error-message">{error}</div>}
-                
-                {!loading && !error && (
-                    userBots.length > 0 ? (
-                        <>
-                            {userBots.map(bot => (
-                                <div className="bot-card" key={bot.created_at}>
-                                    <div className="bot-header">
-                                        <h3>Bot Details</h3>
-                                        <span className={`status ${bot.status || 'active'}`}>
-                                            {bot.status || 'active'}
-                                        </span>
-                                    </div>
-                                    <div className="bot-info">
-                                        <p>
-                                            <strong>Channel:</strong>
-                                            <span className="value">{bot.channel}</span>
-                                        </p>
-                                        <p>
-                                            <strong>Affiliate Code:</strong>
-                                            <span className="value">{bot.affiliate_code}</span>
-                                        </p>
-                                        <p>
-                                            <strong>Agent:</strong>
-                                            <span className="value">{bot.agent || 'Not specified'}</span>
-                                        </p>
-                                    </div>
-                                    <div className="bot-actions">
-                                        <button 
-                                            className={`toggle-btn ${bot.status || 'active'}`}
-                                            onClick={() => toggleBotStatus(bot.channel, bot.status || 'active')}
-                                        >
-                                            <i className={`fas ${bot.status === 'paused' ? 'fa-play' : 'fa-pause'}`}></i>
-                                            {bot.status === 'paused' ? 'Start Bot' : 'Pause Bot'}
-                                        </button>
-                                        <button 
-                                            className="delete-btn"
-                                            onClick={() => deleteBot(bot.channel)}
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                            Delete Bot
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </>
+            {isLoggedIn ? (
+                <div className="dashboard">
+                    {loading ? (
+                        <div className="loading-spinner">Loading your bots...</div>
+                    ) : error ? (
+                        <div className="error-message">{error}</div>
                     ) : (
-                        <div className="no-bots">
-                            <p>No active bots found for your account.</p>
-                            <button 
-                                onClick={() => navigate('/setup-bot')}
-                                className="create-bot-button"
-                            >
-                                Create New Bot
-                            </button>
+                        userBots.length > 0 ? (
+                            <>
+                                <div className="bot-actions-header">
+                                    <button 
+                                        onClick={() => navigate('/setup-bot')}
+                                        className="create-bot-button"
+                                        disabled={userBots.length >= 2}
+                                    >
+                                        <i className="fas fa-plus"></i> Create New Bot
+                                    </button>
+                                </div>
+                                
+                                {userBots.map(bot => (
+                                    <div key={bot.channel} className="bot-card">
+                                        <div className="bot-header">
+                                            <h3>@{bot.channel}</h3>
+                                            <span className={`status-badge ${bot.status || 'active'}`}>
+                                                {bot.status === 'paused' ? 'Paused' : 'Active'}
+                                            </span>
+                                        </div>
+                                        <div className="bot-details">
+                                            <p>
+                                                <strong>Channel:</strong>
+                                                <span className="value">{bot.channel}</span>
+                                            </p>
+                                            <p>
+                                                <strong>Affiliate Code:</strong>
+                                                <span className="value">{bot.affiliate_code}</span>
+                                            </p>
+                                            <p>
+                                                <strong>Agent:</strong>
+                                                <span className="value">{bot.agent || 'Not specified'}</span>
+                                            </p>
+                                        </div>
+                                        <div className="bot-actions">
+                                            <button 
+                                                className={`toggle-btn ${bot.status || 'active'}`}
+                                                onClick={() => toggleBotStatus(bot.channel, bot.status || 'active')}
+                                            >
+                                                <i className={`fas ${bot.status === 'paused' ? 'fa-play' : 'fa-pause'}`}></i>
+                                                {bot.status === 'paused' ? 'Start Bot' : 'Pause Bot'}
+                                            </button>
+                                            <button 
+                                                className="delete-btn"
+                                                onClick={() => deleteBot(bot.channel)}
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                                Delete Bot
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        ) : (
+                            <div className="no-bots">
+                                <p>No active bots found for your account.</p>
+                                <button 
+                                    onClick={() => navigate('/setup-bot')}
+                                    className="create-bot-button"
+                                >
+                                    Create New Bot
+                                </button>
+                            </div>
+                        )
+                    )}
+                </div>
+            ) : (
+                <div className="dashboard">
+                    <div className="placeholder-bots">
+                        <div className="placeholder-card">
+                            <div className="placeholder-header"></div>
+                            <div className="placeholder-content"></div>
+                            <div className="placeholder-actions"></div>
                         </div>
-                    )
-                )}
-            </div>
+                        <div className="placeholder-card">
+                            <div className="placeholder-header"></div>
+                            <div className="placeholder-content"></div>
+                            <div className="placeholder-actions"></div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

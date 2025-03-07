@@ -47,32 +47,26 @@
 }
 
 .convert-button {
-  width: 100%;
-  padding: 15px;
-  background: #31B48C;
+  background-color: #31B48C;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
+  gap: 8px;
 }
 
-.convert-button:hover:not(:disabled) {
-  background: #2a9d7c;
-}
-
-.convert-button:disabled {
-  background: #94a3b8;
-  cursor: not-allowed;
+.convert-button:hover {
+  background-color: #2a9d7c;
 }
 
 .convert-button i {
-  font-size: 16px;
+  margin-right: 8px;
 }
 
 .error-message {
@@ -85,22 +79,27 @@
 }
 
 .welcome-section {
-  background: linear-gradient(135deg, #31B48C, #31B48C);
-  color: white;
-  padding: 30px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #31B48C;
+  color: white !important;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 24px;
 }
 
 .welcome-section h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
+  color: white !important;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .welcome-section p {
+  color: white !important;
+  margin-bottom: 0;
   font-size: 16px;
-  opacity: 0.9;
+}
+
+.welcome-section * {
+  color: white !important;
 }
 
 .input-group {
@@ -143,4 +142,25 @@
   -webkit-text-fill-color: #000000;
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.file-label.disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.login-button {
+  background-color: #31B48C;
+  color: white;
+  cursor: pointer !important;
+}
+
+.login-button:hover {
+  background-color: #2a9d7c;
+}
+
+.form-disabled {
+  opacity: 0.7;
+  pointer-events: none;
 }

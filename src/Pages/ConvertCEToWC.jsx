@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import LoginCTA from '../components/LoginCTA';
 import './ConvertCEToWC.css';
 
-const ConvertCEToWC = () => {
+const ConvertCEToWC = ({ isLoggedIn }) => {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [isConverting, setIsConverting] = useState(false);
   const [error, setError] = useState(null);
@@ -94,6 +97,11 @@ const ConvertCEToWC = () => {
   };
 
   const handleConvert = async () => {
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    
     if (!file) {
       setError('Please select a file first');
       return;
@@ -129,6 +137,8 @@ const ConvertCEToWC = () => {
         <h1>Convert CE To WC</h1>
       </div>
 
+      {!isLoggedIn && <LoginCTA />}
+
       <div className="converter-container">
         <div className="welcome-section">
           <h2>CSV Converter Tool</h2>
@@ -145,6 +155,7 @@ const ConvertCEToWC = () => {
               onChange={(e) => setCategory(e.target.value)}
               placeholder="Enter product category"
               className="text-input"
+              disabled={!isLoggedIn}
             />
           </div>
 
@@ -157,6 +168,7 @@ const ConvertCEToWC = () => {
               onChange={(e) => setButtonText(e.target.value)}
               placeholder="Enter button text"
               className="text-input"
+              disabled={!isLoggedIn}
             />
           </div>
 
@@ -167,8 +179,9 @@ const ConvertCEToWC = () => {
               onChange={handleFileChange}
               id="csvFile"
               className="file-input"
+              disabled={!isLoggedIn}
             />
-            <label htmlFor="csvFile" className="file-label">
+            <label htmlFor="csvFile" className={`file-label ${!isLoggedIn ? 'disabled' : ''}`}>
               <i className="fas fa-cloud-upload-alt"></i>
               <span>{file ? file.name : 'Choose CSV file'}</span>
             </label>
@@ -176,23 +189,33 @@ const ConvertCEToWC = () => {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button
-            className="convert-button"
-            onClick={handleConvert}
-            disabled={!file || isConverting}
-          >
-            {isConverting ? (
-              <>
-                <i className="fas fa-spinner fa-spin"></i>
-                Converting...
-              </>
-            ) : (
-              <>
-                <i className="fas fa-sync-alt"></i>
-                Convert File
-              </>
-            )}
-          </button>
+          {isLoggedIn ? (
+            <button
+              className="convert-button"
+              onClick={handleConvert}
+              disabled={!file || isConverting}
+            >
+              {isConverting ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i>
+                  Converting...
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-sync-alt"></i>
+                  Convert File
+                </>
+              )}
+            </button>
+          ) : (
+            <button
+              className="convert-button login-button"
+              onClick={() => navigate('/login')}
+            >
+              <i className="fas fa-lock"></i>
+              Log In to Convert Files
+            </button>
+          )}
         </div>
       </div>
     </div>

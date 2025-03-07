@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom';
 import Header from './Header/Header';
 import './Layout.css';
 
-const Layout = () => {
+const Layout = ({ isLoggedIn }) => {
   return (
     <div className="app-container">
-      <Header />
+      <Header isLoggedIn={isLoggedIn} />
       <main className="main-content">
         <div className="content-wrapper">
           <Outlet />
